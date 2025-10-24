@@ -1,26 +1,22 @@
 const express = require('express');
 const mustacheExpress = require('mustache-express');
-const mongoose = require('mongoose');
+const path = require('path');
+const appRoutes = require('./routes/appRoutes');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', __dirname + '/views');
+app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb://localhost:27017/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true });
+app.engine('html', mustacheExpress());
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
 
-app.get('/', (req, res) => {
-    res.render('users', { title: 'Головна сторінка' });
-});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use('/', appRoutes);
 
 app.listen(port, () => {
-    console.log(`Сервер запущено на http://localhost:${port}`);
+    console.log(`Сервер успішно запущено на http://localhost:${port}`);
 });
-
-const userController = require('./controllers/userController');
-
-app.get('/users', userController.getUsers);
-app.post('/users', express.urlencoded({ extended: true }), userController.createUser);
-

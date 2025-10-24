@@ -12,13 +12,13 @@
         <div class="header-left">
             <span class="header-logo">Library</span>
             <nav class="main-nav">
-                <a href="catalog.html">Каталог</a>
+                <a href="/catalog">Каталог</a>
                 <a href="#" id="search-link">Пошук</a>
             </nav>
         </div>
         <div class="header-right">
-            <a href="login.html" class="btn-login" style="text-decoration: none;">Вхід</a>
-            <a href="register.html" class="btn-register" style="text-decoration: none;">Реєстрація</a>
+            <a href="/login" class="btn-login" style="text-decoration: none;">Вхід</a>
+            <a href="/register" class="btn-register" style="text-decoration: none;">Реєстрація</a>
         </div>
         
         <div id="search-modal" class="search-modal">
@@ -35,14 +35,16 @@
         
         <h2>Оновлення за сьогодні</h2>
         <div class="section-grid top-updates-grid">
-            
-            <a href="preview.html" class="manga-card">
-                <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
+
+            {{#books}}
+            <a href="/preview/{{id}}" class="manga-card">
+                <img src="{{image}}" alt="{{title}}">
                 <div class="manga-card-info">
-                    <h4>Темний</h4>
-                    <p>Роман</p>
+                    <h4>{{title}}</h4>
+                    <p>{{genre}}</p>
                 </div>
             </a>
+            {{/books}}
             
             <a href="#" class="manga-card">
                 <img src="https://via.placeholder.com/150x250/9b59b6/ffffff?text=Книга+2" alt="Книга 2">
@@ -52,7 +54,7 @@
                 </div>
             </a>
 
-                        <a href="preview.html" class="manga-card">
+            <a href="/preview" class="manga-card">
                 <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
                 <div class="manga-card-info">
                     <h4>Темний</h4>
@@ -76,7 +78,7 @@
                 </div>
             </a>
 
-                        <a href="preview.html" class="manga-card">
+            <a href="/preview" class="manga-card">
                 <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
                 <div class="manga-card-info">
                     <h4>Темний</h4>
@@ -100,7 +102,7 @@
                 </div>
             </a>
 
-                        <a href="preview.html" class="manga-card">
+            <a href="/preview" class="manga-card">
                 <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
                 <div class="manga-card-info">
                     <h4>Темний</h4>
@@ -118,13 +120,13 @@
 
             <a href="#" class="manga-card">
                 <img src="https://via.placeholder.com/150x250/1abc9c/ffffff?text=Книга+8" alt="Книга 8">
-<div class="manga-card-info">
+                <div class="manga-card-info">
                     <h4>Книга 8 (New)</h4>
                     <p>Пригоди</p>
                 </div>
             </a>
 
-                        <a href="preview.html" class="manga-card">
+            <a href="/preview" class="manga-card">
                 <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
                 <div class="manga-card-info">
                     <h4>Темний</h4>
@@ -138,7 +140,7 @@
             <div class="section-block">
                 <h3>Зараз читають</h3> 
                 
-                <a href="preview.html" class="list-item">
+                <a href="/preview" class="list-item">
                     <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 9">
                     <div class="list-item-info">
                         <h4>Книга 9</h4>

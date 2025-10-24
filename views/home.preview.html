@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Темний</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
+        
         .preview-content {
             padding: 20px;
         }
@@ -18,7 +19,7 @@
         }
 
         .preview-image {
-            width: 200px; 
+            width: 200px;
             flex-shrink: 0;
             border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -53,7 +54,7 @@
         .rating-box {
             display: flex;
             align-items: center;
-            background-color: #ff9800;
+            background-color: #ff9800; 
             color: white;
             padding: 5px 10px;
             border-radius: 4px;
@@ -81,7 +82,7 @@
 
         .preview-nav a:hover,
         .preview-nav a.active {
-            color: #f06292; 
+            color: #f06292;
             border-bottom: 2px solid #f06292;
         }
 
@@ -155,32 +156,9 @@
         }
         
         .btn-add {
-            background-color: #3498db; 
+            background-color: #3498db;
             color: white;
         }
-
-        .details-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .details-list li {
-            padding: 5px 0;
-            border-bottom: 1px dotted #eee;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95em;
-        }
-
-        .details-list li strong {
-            color: #777;
-            font-weight: normal;
-        }
-        .details-list li span {
-            font-weight: bold;
-            color: #333;
-        }
-
 
         @media (max-width: 900px) {
             .preview-layout {
@@ -215,13 +193,12 @@
         <div class="header-left">
             <span class="header-logo">Library</span>
             <nav class="main-nav">
-                <a href="catalog.html">Каталог</a>
+                <a href="/home/catalog">Каталог</a>
                 <a href="#" id="search-link">Пошук</a>
             </nav>
         </div>
         <div class="header-right">
-            <a href="login.html" class="btn-login" style="text-decoration: none;">Вхід</a>
-            <a href="register.html" class="btn-register" style="text-decoration: none;">Реєстрація</a>
+            <a href="#" id="profile-link" class="btn-login" style="text-decoration: none;">Профіль</a>
         </div>
         
         <div id="search-modal" class="search-modal">
@@ -231,16 +208,35 @@
             <p class="search-info">Розширений пошук тайтлів знаходиться в каталозі</p>
         </div>
     </header>
-
+    <aside id="profile-sidebar" class="profile-sidebar">
+        <div class="sidebar-header">
+            <h3>Профіль</h3>
+            <button class="sidebar-close" id="sidebar-close">&times;</button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#">📖 Прочитане</a>
+            <a href="/savage">⭐ Збережене</a>
+            <a href="/">🚪 Вихід</a>
+        </nav>
+        
+        <div class="theme-switch-block">
+            <span>Темне оформлення</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </aside>
     <div class="container preview-content">
         
         <div class="cover-section">
             <div class="preview-image">
-                <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Темний">
+                <img src="{{book.image}}" alt="{{book.title}}">
             </div>
             <div class="preview-info">
                 <div class="title-header">
-                    <h1>Темний</h1>
+                    <h1>{{book.title}}</h1>
                     <div class="rating-box">
                         <span class="score">9.46</span>
                     </div>
@@ -275,15 +271,15 @@
             <aside class="sidebar-col">
                 <div class="sidebar-block">
                     <button class="action-button btn-read">Читати</button>
-                    <button class="action-button btn-add">Додати у збережене</button>
+                    <button class="action-button btn-add" id="save-button" data-book-id="{{book.id}}">Додати у збережене</button>
                 </div>
                 
                 <div class="sidebar-block">
                     <h4>Деталі</h4>
                     <ul class="details-list">
-                        <li><strong>Жанр:</strong> <span>Роман</span></li>
+                        <li><strong>Жанр:</strong> <span>{{book.genre}}</span></li>
                         <li><strong>Дата релізу:</strong> <span>2020 г.</span></li>
-                        <li><strong>Автор:</strong> <a href="autor.html"><span>Ніккі Сент-Кроу</span></a></li>
+                        <li><strong>Автор:</strong> <a href="/autor"><span>{{book.author}}</span></a></li>
                     </ul>
                 </div>
             </aside>
@@ -325,9 +321,8 @@
             </nav>
         </div>
     </footer>
-
     <script>
-        document.getElementById('search-link').addEventListener('click', function(event) {
+                document.getElementById('search-link').addEventListener('click', function(event) {
             event.preventDefault(); 
             var searchModal = document.getElementById('search-modal');
             if (searchModal.style.display === 'block') {
@@ -347,6 +342,47 @@
                 searchModal.style.display = 'none';
             }
         });
-    </script>
+
+            document.getElementById('profile-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('profile-sidebar').classList.toggle('open');
+        });
+
+        document.getElementById('sidebar-close').addEventListener('click', function() {
+            document.getElementById('profile-sidebar').classList.remove('open');
+        });
+        
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-theme', this.checked);
+            
+            localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+        });
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-toggle').checked = true;
+        }
+
+        document.getElementById('save-button').addEventListener('click', function() {
+            const bookId = this.dataset.bookId; 
+
+
+        fetch('/save-book', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: bookId }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); 
+        })
+        .catch(error => {
+            console.error('Помилка:', error);
+            alert('Не вдалося зберегти книгу.');
+        });
+    });
+</script>
 </body>
 </html>
