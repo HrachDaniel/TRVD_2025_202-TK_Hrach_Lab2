@@ -23,3 +23,4 @@ const userController = require('./controllers/userController');
 
 app.get('/users', userController.getUsers);
 app.post('/users', express.urlencoded({ extended: true }), userController.createUser);
+
