@@ -49,7 +49,7 @@ router.get('/autor', (req, res) => {
     const authorBooks = books.filter(book => book.author === 'Ніккі Сент-Кроу');
     res.render('autor', {
         authorName: 'Ніккі Сент-Кроу',
-        books: authorBooks
+        books: authorBooks,
     });
 });
 

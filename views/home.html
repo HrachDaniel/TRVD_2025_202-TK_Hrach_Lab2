@@ -151,29 +151,15 @@
             <div class="section-block">
                 <h3>Зараз читають</h3> 
                 
-                <a href="/home/preview/{{id}}" class="list-item">
-                    <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 9">
-                    <div class="list-item-info">
-                        <h4>Темний</h4>
-                        <p>Роман</p>
+                {{#books}}
+                <a href="/preview/{{id}}" class="list-item">
+                    <img src="{{image}}" alt="{{title}}">
+                    <div class="manga-card-info">
+                        <h4>{{title}}</h4>
+                        <p>{{genre}}</p>
                     </div>
                 </a>
-                
-                <a href="#" class="list-item">
-                    <img src="https://via.placeholder.com/60x80/34495e/ffffff?text=Я+ст" alt="Книга 10">
-                    <div class="list-item-info">
-                        <h4>Книга 10</h4>
-                        <p>Фантастика</p>
-                    </div>
-                </a>
-
-                <a href="#" class="list-item">
-                    <img src="https://via.placeholder.com/60x80/2980b9/ffffff?text=Моя+с" alt="Книга 11">
-                    <div class="list-item-info">
-                        <h4>Книга 11</h4>
-                        <p>Роман</p>
-                    </div>
-                </a>
+                {{/books}}
             </div>
 
             <div class="section-block">

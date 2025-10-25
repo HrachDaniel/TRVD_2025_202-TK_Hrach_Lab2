@@ -48,13 +48,15 @@
             </div>
 
             <div class="section-grid catalog-grid-page">
-                <a href="/home.preview" class="manga-card">
-                    <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
+                {{#books}}
+                <a href="/preview/{{id}}" class="manga-card">
+                    <img src="{{image}}" alt="{{title}}">
                     <div class="manga-card-info">
-                        <h4>Темний</h4>
-                        <p>Роман</p>
+                        <h4>{{title}}</h4>
+                        <p>{{genre}}</p>
                     </div>
                 </a>
+                {{/books}}
                 
                 <a href="#" class="manga-card">
                     <img src="https://static.yakaboo.ua/media/cloudflare/product/webp/352x340/c/o/cover_2343.jpg" alt="Король Неверленду">
