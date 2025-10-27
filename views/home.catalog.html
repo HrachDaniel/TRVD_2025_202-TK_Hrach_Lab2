@@ -48,13 +48,15 @@
             </div>
 
             <div class="section-grid catalog-grid-page">
+                {{#books}}
                 <a href="/home/preview/{{id}}" class="manga-card">
-                    <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Книга 1">
+                    <img src="{{image}}" alt="{{title}}">
                     <div class="manga-card-info">
-                        <h4>Темний</h4>
-                        <p>Роман</p>
+                        <h4>{{title}}</h4>
+                        <p>{{genre}}</p>
                     </div>
                 </a>
+                {{/books}}
                 
                 <a href="#" class="manga-card">
                     <img src="https://via.placeholder.com/180x250/9b59b6/ffffff?text=Книга+2" alt="Книга 2">
