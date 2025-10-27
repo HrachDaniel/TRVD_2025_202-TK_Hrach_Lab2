@@ -21,10 +21,10 @@
         </div>
         
         <div id="search-modal" class="search-modal">
-            <input type="text" class="search-input-main" placeholder="Пошук тайтлів">
+            <input type="text" id="main-search-input" class="search-input-main" placeholder="Пошук тайтлів">
             
-            <div class="search-tabs">
-                </div>
+            <div class="search-tabs"></div>
+            <div id="search-results-container"></div>
             
             <p class="search-info">Розширений пошук тайтлів знаходиться в каталозі</p>
         </div>
@@ -271,6 +271,40 @@
             document.body.classList.add('dark-theme');
             document.getElementById('theme-toggle').checked = true;
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('main-search-input');
+    const resultsContainer = document.getElementById('search-results-container');
+
+    searchInput.addEventListener('keyup', function() {
+        const query = searchInput.value.trim();
+
+        if (query === '') {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+
+        fetch(`/search?q=${query}`)
+            .then(response => response.json())
+            .then(books => {
+                resultsContainer.innerHTML = '';
+
+                books.forEach(book => {
+                    const bookElement = document.createElement('a');
+                    bookElement.href = `/home/preview/${book.id}`;
+                    bookElement.classList.add('search-result-item');
+                    
+                    bookElement.innerHTML = `
+                        <img src="${book.image}" alt="${book.title}" class="search-result-image">
+                        <span class="search-result-title">${book.title}</span>
+                    `;
+                    
+                    resultsContainer.appendChild(bookElement);
+                });
+            })
+            .catch(error => console.error('Помилка пошуку:', error));
+    });
+});
     </script>
 </body>
 </html>

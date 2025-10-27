@@ -287,6 +287,70 @@ background-image: linear-gradient(to bottom, rgb(255, 102, 0), rgb(255, 208, 0))
     border-radius: 4px;
 }
 
+#search-results-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+    background-color: #f9f9f9;
+}
+
+.search-result-image {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 3px;
+}
+
+.search-result-title {
+    font-weight: bold;
+}
+
+.context-menu {
+    display: none;
+    position: absolute; 
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1000; 
+}
+
+.context-menu-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.context-menu-btn:hover {
+    background-color: #c0392b;
+}
+
+.manga-card .btn-remove {
+    display: none; 
+}
+
 /* Sidebar Filter */
 .filter-group {
     margin-bottom: 20px;
@@ -479,20 +543,6 @@ input:checked + .slider:before {
             font-weight: bold;
             color: #333;
         }
-
-.btn-remove {
-    background-color: #e74c3c; 
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 5px;
-    width: 100%;
-}
-.btn-remove:hover {
-    background-color: #c0392b;
-}
 
 /* --- DARK THEME STYLES --- */
 body.dark-theme {

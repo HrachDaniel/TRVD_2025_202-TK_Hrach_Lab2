@@ -134,19 +134,22 @@ router.post('/save-book', (req, res) => {
 });
 
 router.delete('/saved/delete/:id', (req, res) => {
-    const bookIdToDelete = parseInt(req.params.id, 10);
-    
-    const savedBooks = readData('saved.json');
-    
-    const updatedSavedBooks = savedBooks.filter(book => book.id !== bookIdToDelete);
-    
+    const bookIdToDelete = parseInt(req.params.id, 10);    
+    const savedBooks = readData('saved.json');    
+    const updatedSavedBooks = savedBooks.filter(book => book.id !== bookIdToDelete);    
     if (savedBooks.length === updatedSavedBooks.length) {
         return res.status(404).json({ success: false, message: 'Книгу не знайдено у збереженому.' });
     }
     
-    writeData('saved.json', updatedSavedBooks);
-    
+    writeData('saved.json', updatedSavedBooks);    
     res.json({ success: true, message: 'Книгу було успішно вилучено.' });
+});
+
+router.get('/search', (req, res) => {
+    const query = (req.query.q || '').toLowerCase();    
+    const books = readData('books.json');   
+    const results = books.filter(book => book.title.toLowerCase().includes(query));    
+    res.json(results);
 });
 
 module.exports = router;

@@ -225,9 +225,11 @@
         </div>
         
         <div id="search-modal" class="search-modal">
-            <input type="text" class="search-input-main" placeholder="Пошук тайтлів">
-            <div class="search-tabs">
-            </div>
+            <input type="text" id="main-search-input" class="search-input-main" placeholder="Пошук тайтлів">
+            
+            <div class="search-tabs"></div>
+            <div id="search-results-container"></div>
+            
             <p class="search-info">Розширений пошук тайтлів знаходиться в каталозі</p>
         </div>
     </header>
@@ -236,11 +238,11 @@
         
         <div class="cover-section">
             <div class="preview-image">
-                <img src="https://book24.ua/upload/iblock/0e1/0e1d260914818c00aca1bb76e08c39be.jpg" alt="Темний">
+                <img src="{{book.image}}" alt="{{book.title}}">
             </div>
             <div class="preview-info">
                 <div class="title-header">
-                    <h1>Темний</h1>
+                    <h1>{{book.title}}</h1>
                     <div class="rating-box">
                         <span class="score">9.46</span>
                     </div>
@@ -274,8 +276,8 @@
             
             <aside class="sidebar-col">
                 <div class="sidebar-block">
-                    <button class="action-button btn-read">Читати</button>
-                    <button class="action-button btn-add">Додати у збережене</button>
+                    <button class="action-button btn-read"><a href="/login" class="action-button btn-read">Читати</a></button>
+                    <button class="action-button btn-add"><a href="/login" class="action-button btn-add">Додати у збережене</a></button>
                 </div>
                 
                 <div class="sidebar-block">
@@ -283,7 +285,7 @@
                     <ul class="details-list">
                         <li><strong>Жанр:</strong> <span>Роман</span></li>
                         <li><strong>Дата релізу:</strong> <span>2020 г.</span></li>
-                        <li><strong>Автор:</strong> <a href="/autor"><span>Ніккі Сент-Кроу</span></a></li>
+                        <li><strong>Автор:</strong> <a href="/login"><span>Ніккі Сент-Кроу</span></a></li>
                     </ul>
                 </div>
             </aside>
@@ -347,6 +349,40 @@
                 searchModal.style.display = 'none';
             }
         });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('main-search-input');
+    const resultsContainer = document.getElementById('search-results-container');
+
+    searchInput.addEventListener('keyup', function() {
+        const query = searchInput.value.trim();
+
+        if (query === '') {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+
+        fetch(`/search?q=${query}`)
+            .then(response => response.json())
+            .then(books => {
+                resultsContainer.innerHTML = '';
+
+                books.forEach(book => {
+                    const bookElement = document.createElement('a');
+                    bookElement.href = `/preview/${book.id}`;
+                    bookElement.classList.add('search-result-item');
+                    
+                    bookElement.innerHTML = `
+                        <img src="${book.image}" alt="${book.title}" class="search-result-image">
+                        <span class="search-result-title">${book.title}</span>
+                    `;
+                    
+                    resultsContainer.appendChild(bookElement);
+                });
+            })
+            .catch(error => console.error('Помилка пошуку:', error));
+    });
+});
     </script>
 </body>
 </html>

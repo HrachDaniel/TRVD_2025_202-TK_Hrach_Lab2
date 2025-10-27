@@ -202,9 +202,11 @@
         </div>
         
         <div id="search-modal" class="search-modal">
-            <input type="text" class="search-input-main" placeholder="Пошук тайтлів">
-            <div class="search-tabs">
-            </div>
+            <input type="text" id="main-search-input" class="search-input-main" placeholder="Пошук тайтлів">
+            
+            <div class="search-tabs"></div>
+            <div id="search-results-container"></div>
+            
             <p class="search-info">Розширений пошук тайтлів знаходиться в каталозі</p>
         </div>
     </header>
@@ -240,7 +242,7 @@
                     <div class="rating-box">
                         <span class="score">9.46</span>
                     </div>
-</div>
+                </div>
                 
                 <div class="preview-nav">
                     <a href="#" class="active">Опис</a>
@@ -251,7 +253,7 @@
                         Темний– це друга частина популярної серії про короля Неверленду.
                         Читачі знову зустрінуться з Пітером Пеном, Вінні Дарлінґ, Вейном та братами-близнюками Касом та Башем. Жанр твору – роман-ретелінг, це нова версія старої історії. Авторка не просто переказує сюжет книги про Пітера Пена, а переосмислює його, додає багато нового й створює свою унікальну історію. Нагадуємо, що роман призначений для дорослої аудиторії 18+.
                     </p>
-                    <a href="#" style="color: #f06292;">Деталі...</a>
+                    <a href="#" style="color: #272526;">Деталі...</a>
                 </div>
                 
                 <div class="tags">
@@ -383,6 +385,40 @@
             alert('Не вдалося зберегти книгу.');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('main-search-input');
+    const resultsContainer = document.getElementById('search-results-container');
+
+    searchInput.addEventListener('keyup', function() {
+        const query = searchInput.value.trim();
+
+        if (query === '') {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+
+        fetch(`/search?q=${query}`)
+            .then(response => response.json())
+            .then(books => {
+                resultsContainer.innerHTML = '';
+
+                books.forEach(book => {
+                    const bookElement = document.createElement('a');
+                    bookElement.href = `/home/preview/${book.id}`;
+                    bookElement.classList.add('search-result-item');
+                    
+                    bookElement.innerHTML = `
+                        <img src="${book.image}" alt="${book.title}" class="search-result-image">
+                        <span class="search-result-title">${book.title}</span>
+                    `;
+                    
+                    resultsContainer.appendChild(bookElement);
+                });
+            })
+            .catch(error => console.error('Помилка пошуку:', error));
+    });
+});
 </script>
 </body>
 </html>
