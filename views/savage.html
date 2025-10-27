@@ -127,16 +127,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const contextMenuDeleteBtn = document.getElementById('context-menu-delete-btn');
 
     if (!container || !contextMenu || !contextMenuDeleteBtn) {
-        console.error('One or more required elements (container, context menu) were not found.');
         return;
     }
 
     function deleteBook(bookId) {
-        if (!bookId) {
-            console.error('Cannot delete: bookId is missing.');
-            return;
-        }
-
         fetch(`/saved/delete/${bookId}`, {
             method: 'DELETE',
         })
@@ -144,30 +138,30 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert(data.message);
-                location.reload();   
+                location.reload();
             } else {
                 alert('Помилка: ' + data.message);
             }
         })
-        .catch(error => {
-            console.error('Fetch error:', error);
-            alert('Не вдалося зв\'язатися з сервером для видалення книги.');
-        });
+        .catch(error => console.error('Помилка:', error));
     }
 
     container.addEventListener('contextmenu', function(event) {
         const card = event.target.closest('.manga-card');
         if (card) {
-            event.preventDefault();
+            event.preventDefault(); 
 
             const deleteButton = card.querySelector('[data-book-id]');
             if (!deleteButton) return;
-
-            const bookId = deleteButton.dataset.bookId;           
+            
+            const bookId = deleteButton.dataset.bookId;
             contextMenuDeleteBtn.dataset.bookId = bookId;
-            contextMenu.style.top = `${event.pageY}px`;
-            contextMenu.style.left = `${event.pageX + 5}px`;
-            contextMenu.style.display = 'block';
+            const cardRect = card.getBoundingClientRect();
+            const topPosition = cardRect.top + cardRect.height / 2 + window.scrollY;
+            const leftPosition = cardRect.left + cardRect.width / 2 + window.scrollX;
+            contextMenu.style.top = `${topPosition}px`;
+            contextMenu.style.left = `${leftPosition}px`;
+            contextMenu.style.display = 'block'; 
         }
     });
 
